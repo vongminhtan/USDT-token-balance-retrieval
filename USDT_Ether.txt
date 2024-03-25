@@ -1,0 +1,24 @@
+const API_KEY='Etherscan API Key Token';
+const USDT_EHEREUM_ADDRESS = '0xdAC17F958D2ee523a2206206994597C13D831ec7';
+
+function getEtherBalance(walletAddress) {
+  const url = `https://api.etherscan.io/api?address=${walletAddress}&contractaddress=${USDT_EHEREUM_ADDRESS}&apikey=${API_KEY}&module=account&action=tokenbalance&tag=latest`;
+
+  try {
+    const response = UrlFetchApp.fetch(url);
+    if (response.getResponseCode() == 200){
+      var result = JSON.parse(response.getContentText());
+      
+      if(result.status == '0') {
+        return 0;
+      }
+
+      return result.result/Math.pow(10, 6);
+    }
+    
+    return 0;
+  } catch {
+    return 0;
+  }
+ 
+}
